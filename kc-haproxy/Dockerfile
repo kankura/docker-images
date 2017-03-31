@@ -14,8 +14,11 @@ RUN apt-get update && apt-get install vim -y && rm -rf /var/lib/apt/lists/*
 # Logging
 ADD rsyslog/haproxy.conf /etc/rsyslog.d
 
+# Aliases
+RUN echo " \n\
+alias ls=\"ls --color=auto\"                      \n\
+alias ll=\"ls -lha --full-time --color=auto\"     \n\
+" >> /root/~.bashrc
 
 COPY entrypoint.sh /
-
 #ENTRYPOINT ["/entrypoint.sh"]
-

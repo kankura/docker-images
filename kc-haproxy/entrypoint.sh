@@ -3,10 +3,6 @@
 echo "Show args as commands"
 echo command: $@
 
-# Aliases
-alias ls="ls --color=auto"
-alias ll="ls -lha --full-time --color=auto"
-
 # Make sure service is running
 service rsyslog start
 

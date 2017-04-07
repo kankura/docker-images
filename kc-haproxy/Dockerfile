@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install rsyslog -y && \
     sed -i 's/#$UDPServerRun 514/$UDPServerRun 514/g' /etc/rsyslog.conf
 
 # debug
-RUN apt-get update && apt-get install vim -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install vim net-tools -y && rm -rf /var/lib/apt/lists/*
 
 # Logging
 ADD rsyslog/haproxy.conf /etc/rsyslog.d

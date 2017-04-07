@@ -149,6 +149,6 @@ RUN \
     curl -sS https://getcomposer.org/installer | php
 
 ## tomcat proxy
-#RUN a2enmod proxy proxy_http proxy_ajp
-## Nifty Cloud Load Balancer IP to Client IP logging for apache2
-#RUN a2enmod remoteip
+RUN a2enmod proxy proxy_http proxy_ajp
+## Rewrite log; Load Balancer IP to Client IP logging for apache2
+RUN a2enmod remoteip

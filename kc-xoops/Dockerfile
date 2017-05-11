@@ -7,17 +7,22 @@ RUN apt-get update -y
 # 各種インストール
 RUN apt-get install -y     \
                    iputils-ping \
-                   iproute   \
-                   wget      \
-                   telnet   \
-                   tree      \
-                   vim      \
-                   curl      \
-                   net-tools  \
-                   dnsutils    \
-                   git        \
-                   bzip2      && \
-    apt-get clean all
+                   iproute      \
+                   wget         \
+                   telnet       \
+                   tree         \
+                   vim          \
+                   curl         \
+                   net-tools    \
+                   dnsutils     \
+                   bzip2        \
+    && apt-get clean all
+
+# Install Latest Git
+RUN echo "deb http://ftp.us.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list \
+         &&      apt-get update              \
+         &&      apt-get install -y git      \
+         &&      apt-get clean all
 
 # Supervisor
 RUN apt-get install -y openssh-server supervisor

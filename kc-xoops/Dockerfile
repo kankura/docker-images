@@ -151,7 +151,8 @@ RUN apt-get install -y cpio
 # composer
 RUN \
     cd /usr/local/bin && \
-    curl -sS https://getcomposer.org/installer | php
+    curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar composer
 
 ## tomcat proxy
 RUN a2enmod proxy proxy_http proxy_ajp

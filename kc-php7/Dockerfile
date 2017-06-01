@@ -1,10 +1,10 @@
 FROM php:7-apache
 MAINTAINER kujiy
 
-# アップデート
+# Update
 RUN apt-get update -y
 
-# 各種インストール
+# Install fundamental softwares
 RUN apt-get install -y     \
                    iputils-ping \
                    iproute      \
@@ -49,7 +49,7 @@ RUN apt-get update \
 # https://hub.docker.com/_/php/
 RUN apt-get update &&  \
    /usr/local/bin/docker-php-ext-install mysqli pdo_mysql mbstring pdo
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server mysql-client php5-mysql
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server mysql-client php-mysql
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client php-mysql && \
     apt-get clean all
 
@@ -58,7 +58,6 @@ RUN a2enmod rewrite
 # Disable unnessary extensions
 RUN a2dismod dav dav_fs cgi ssl
 
-# php5-gdは必須！
 # GDをインストールするの超大変！！
 # apt-get と docker-php-なんたらの連続技で動きます
 # どこかの拾い物とここ https://hub.docker.com/r/tommylau/php/~/dockerfile/ のハイブリッド
@@ -66,11 +65,11 @@ RUN a2dismod dav dav_fs cgi ssl
 RUN apt-get update && \
 DEBIAN_FRONTEND=noninteractive && \
 apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confdef" install \
-        libapache2-mod-php5 \
-        php5-gd    \
+        libapache2-mod-php \
+        php-gd    \
         php-pear   \
         php-apc    \
-        php5-curl  \
+        php-curl  \
         lynx-cur \
         libfreetype6-dev \
         libjpeg62-turbo-dev \

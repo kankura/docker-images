@@ -158,3 +158,5 @@ RUN \
 RUN a2enmod proxy proxy_http proxy_ajp
 ## Rewrite log; Load Balancer IP to Client IP logging for apache2
 RUN a2enmod remoteip
+## Enable to insert headers
+RUN a2enmod headers

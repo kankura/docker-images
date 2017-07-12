@@ -2,4 +2,4 @@ FROM centos
 MAINTAINER kujiy
 
 # Install
-RUN yum install -y mysql-client
+RUN yum install -y mysql

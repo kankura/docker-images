@@ -27,4 +27,4 @@ alias ll=\"ls -lha --full-time --color=auto\"     \n\
 " >> /root/~.bashrc
 
 COPY entrypoint.sh /
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

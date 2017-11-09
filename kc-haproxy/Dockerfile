@@ -21,10 +21,8 @@ RUN    apt-get update \
 ADD rsyslog/haproxy.conf /etc/rsyslog.d
 
 # Aliases
-RUN echo " \n\
-alias ls=\"ls --color=auto\"                      \n\
-alias ll=\"ls -lha --full-time --color=auto\"     \n\
-" >> /root/~.bashrc
+COPY ll /usr/bin/
 
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["haproxy -f /usr/local/etc/haproxy/haproxy.cfg -Ds -dr -V -d"]

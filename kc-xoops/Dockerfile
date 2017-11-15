@@ -48,7 +48,7 @@ RUN apt-get update \
 # https://hub.docker.com/_/php/
 RUN apt-get update &&  \
    /usr/local/bin/docker-php-ext-install mysql mysqli pdo_mysql mbstring mysql mysqli pdo pdo_mysql
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server mysql-client php5-mysql
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client php5-mysql && \
     apt-get clean all
 
@@ -159,3 +159,9 @@ RUN a2enmod proxy proxy_http proxy_ajp
 RUN a2enmod remoteip
 ## Enable to insert headers
 RUN a2enmod headers
+
+## important
+RUN apt-get update \
+  && apt-get upgrade -y    \
+  && apt-get autoremove -y \
+  && apt-get clean all

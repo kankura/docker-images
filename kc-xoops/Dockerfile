@@ -167,7 +167,9 @@ RUN apt-get update \
   && apt-get upgrade -y    \
   && apt-get autoremove -y \
   && apt-get clean all
+## npm gnutls error
 RUN apt-get update \
+  && apt-get remove -y libgnutls-deb0-28 \
   && apt-get upgrade -y libgnutls* \
   && apt-get autoremove -y \
   && apt-get clean all

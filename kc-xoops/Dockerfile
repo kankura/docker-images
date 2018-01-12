@@ -41,7 +41,7 @@ Run apt-get install -y cron \
 RUN apt-get update \
      && apt-get install -y nodejs npm fonts-ipaexfont-gothic       && \
         ln -s /usr/bin/nodejs /usr/bin/node && \
- npm i -g bower grunt-cli && \
+ npm i -g bower grunt-cli yarn && \
  apt-get autoremove -y  && \
  apt-get clean all
 

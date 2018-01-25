@@ -39,9 +39,10 @@ Run apt-get install -y cron \
 
 # CI
 RUN apt-get update \
-     && apt-get install -y npm fonts-ipaexfont-gothic  && \
+     && apt-get install -y nodejs npm fonts-ipaexfont-gothic       && \
  ln -s /usr/bin/nodejs /usr/bin/node  && \
- npm i -g bower grunt-cli && \
+ npm i -g bower grunt-cli yarn && \
+ apt-get autoremove -y  && \
  apt-get clean all
 
 # mysql and other extensions
@@ -152,3 +153,25 @@ RUN \
     cd /usr/local/bin && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar composer
+
+## tomcat proxy
+RUN a2enmod proxy proxy_http proxy_ajp
+## Rewrite log; Load Balancer IP to Client IP logging for apache2
+RUN a2enmod remoteip
+## Enable to insert headers
+RUN a2enmod headers
+
+## npm gnutls error
+RUN apt-get update \
+  && apt-get remove -y libgnutls-deb0-28 \
+  && apt-get upgrade -y libgnutls* \
+  && apt-get autoremove -y \
+  && apt-get clean all
+## important
+RUN apt-get update \
+  && apt-get upgrade -y    \
+  && apt-get autoremove -y \
+  && apt-get clean all
+
+## logrotate
+COPY logrotate.d/apache2 /etc/logrotate.d/apache2

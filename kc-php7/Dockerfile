@@ -1,11 +1,25 @@
 FROM php:7-apache
 MAINTAINER kujiy
 
-# Update
-RUN apt-get update -y
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install fundamental softwares
-RUN apt-get install -y     \
+# update & upgrade
+RUN apt-get update -y            \ 
+ && apt-get install apt-utils -y \
+ && apt-get autoremove -y        \
+ && apt-get clean all
+RUN apt-get upgrade -y           \
+ && apt-get autoremove -y        \
+ && apt-get clean all
+
+# 各種インストール
+## cronを入れる。cron loggingのためにrsyslogも入れる。
+## これにより /var/log/syslog にcron logが入ります。
+RUN apt-get install -y          \
+                   apt-utils    \
+                   git          \
+                   cron         \
+                   rsyslog      \
                    iputils-ping \
                    iproute      \
                    wget         \
@@ -16,98 +30,72 @@ RUN apt-get install -y     \
                    net-tools    \
                    dnsutils     \
                    bzip2        \
+                   lsyncd       \
+                   cpio         \
+                   supervisor   \
     && apt-get clean all
 
-# Install Latest Git
-RUN echo "deb http://ftp.us.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list \
-         &&      apt-get update              \
-         &&      apt-get install -y git      \
-         &&      apt-get clean all
-
-# Supervisor
-RUN apt-get install -y openssh-server supervisor
-RUN mkdir -p  /var/run/sshd /var/log/supervisor
-RUN mkdir -p /var/log/supervisor
-
-# cronを入れる。cron loggingのためにrsyslogも入れる。
-# これにより /var/log/syslog にcron logが入ります。
-Run apt-get install -y cron \
-                       rsyslog \
-                       #squid3 \
-                       imagemagick && \
+# npm
+# Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
+RUN apt-get update                                       && \
+    apt-get install -y nodejs npm fonts-ipaexfont-gothic && \
+    ln -s /usr/bin/nodejs /usr/bin/node                  && \
+    npm i -g bower grunt-cli yarn                        && \
+    apt-get autoremove -y                                && \
     apt-get clean all
 
-# CI
-RUN apt-get update \
-     && apt-get install -y nodejs npm fonts-ipaexfont-gothic       && \
- ln -s /usr/bin/nodejs /usr/bin/node  && \
- npm i -g bower grunt-cli yarn && \
- apt-get autoremove -y  && \
- apt-get clean all
+# Install Apache modules
+RUN a2enmod rewrite \
+            proxy proxy_http proxy_ajp \
+            remoteip headers 
+# Disable unnessary extensions
+RUN a2dismod dav dav_fs cgi ssl
+
+# Supervisor
+RUN mkdir -p /var/log/supervisor
 
 # mysql and other extensions
 # IMPORTANT: MUST use "dockerphp-ext-install"
 # https://hub.docker.com/_/php/
-RUN apt-get update &&  \
-   /usr/local/bin/docker-php-ext-install mysqli pdo_mysql mbstring pdo
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server mysql-client php-mysql
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client php-mysql && \
+RUN DEBIAN_FRONTEND=noninteractive    && \
+    apt-get update                    && \
+    apt-get install -y mysql-client   && \
     apt-get clean all
 
-# Install Apache RewirteEngine
-RUN a2enmod rewrite
-# Disable unnessary extensions
-RUN a2dismod dav dav_fs cgi ssl
-
-# GDをインストールするの超大変！！
-# apt-get と docker-php-なんたらの連続技で動きます
-# どこかの拾い物とここ https://hub.docker.com/r/tommylau/php/~/dockerfile/ のハイブリッド
-# gd JPEG enabled と exif_imagetype() がおかしい場合は↑を完全採用したほうがいいかも
-RUN apt-get update && \
-DEBIAN_FRONTEND=noninteractive && \
-apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confdef" install \
-        libapache2-mod-php \
-        php-gd    \
-        php-pear   \
-        php-apc    \
-        php-curl  \
-        lynx-cur \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng12-dev \
-        libjpeg-dev \
-        libbz2-dev \
-  && apt-get autoremove -y \
-  && apt-get clean all
-
 # php libraries
-# https://hub.docker.com/r/nazarpc/php/~/dockerfile/
- RUN docker-php-ext-install -j$(nproc) iconv mcrypt \
-    && docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
-    && docker-php-ext-install -j$(nproc) gd   \
-    && docker-php-ext-install \
-                bcmath \
-                bz2 \
-                exif \
-                ftp \
-                gettext \
-                mbstring \
-                mcrypt \
-                mysqli \
-                opcache \
-                pdo_mysql \
-                shmop \
-                sockets \
-                sysvmsg \
-                sysvsem \
-                sysvshm \
-                zip
+# https://docs.docker.com/samples/library/php/#how-to-install-more-php-extensions
+RUN apt-get update && apt-get install -y \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libmcrypt-dev       \
+		libpng-dev          \
+	        imagemagick         \
+                lynx-cur            \
+                libfreetype6-dev    \
+                libbz2-dev          \
+                zlib1g-dev          \
+                libcurl4-gnutls-dev     \
+        && docker-php-ext-install -j$(nproc) iconv mcrypt \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+	&& docker-php-ext-install -j$(nproc) gd
 
-# install php-zip
-RUN  apt-get -y install zlib1g-dev \
-  && docker-php-ext-install zip  \
-        && apt-get clean all
+# https://hub.docker.com/r/nazarpc/php/~/dockerfile/
+RUN docker-php-ext-install \
+                mysql mysqli pdo pdo_mysql \
+		bcmath \
+		bz2 \
+                curl \
+		exif \
+		ftp \
+		gettext \
+		mbstring \
+		opcache \
+		shmop \
+		sockets \
+		sysvmsg \
+		sysvsem \
+		sysvshm \
+		zip
 
 # ruby
 # https://github.com/docker-library/ruby/blob/1b08f346713a1293c2a9238e470e086126e2e28f/2.3/Dockerfile
@@ -116,9 +104,8 @@ RUN \
     gem install bundler  && \
     bundle config --global path /usr/local/bundle && \
     bundle config --global bin /usr/local/bundle/bin && \
-    apt-get clean all
-
-RUN gem install sass
+    apt-get clean all \
+ && gem install sass
 
 RUN echo " \n\
 set encoding=utf-8 \n\
@@ -126,7 +113,6 @@ set nu             \n\
 set history=9999   \n\
 syntax on          \n\
 " > /root/.vimrc
-
 
 # Aliases
 RUN echo " \n\
@@ -142,24 +128,15 @@ RUN    apt-get update             \
    &&  apt-get clean all
 #COPY ./conf/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
-# Lsyncd
-RUN apt-get install -y lsyncd
-
-# source backupで使うcpio
-RUN apt-get install -y cpio
-
 # composer
-RUN \
-    cd /usr/local/bin && \
-    curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar composer
+RUN curl -sS https://getcomposer.org/installer | php   && \
+    mv composer.phar /usr/local/bin/composer           && \
+    composer self-update
 
-## tomcat proxy
-RUN a2enmod proxy proxy_http proxy_ajp
-## Rewrite log; Load Balancer IP to Client IP logging for apache2
-RUN a2enmod remoteip
-## Enable to insert headers
-RUN a2enmod headers
+## logrotate
+COPY logrotate.d/apache2 /etc/logrotate.d/apache2
+
+WORKDIR /var/www
 
 ## npm gnutls error
 RUN apt-get update \
@@ -173,5 +150,3 @@ RUN apt-get update \
   && apt-get autoremove -y \
   && apt-get clean all
 
-## logrotate
-COPY logrotate.d/apache2 /etc/logrotate.d/apache2

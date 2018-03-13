@@ -5,7 +5,7 @@
         nocompress
         #delaycompress
         notifempty
-        create 640 root adm
+        create 640 root www-data
         sharedscripts
         postrotate
                 if /etc/init.d/apache2 status > /dev/null ; then \

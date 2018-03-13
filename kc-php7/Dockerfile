@@ -33,17 +33,20 @@ RUN apt-get install -y          \
                    lsyncd       \
                    cpio         \
                    supervisor   \
+                   software-properties-common \
+                   gnupg                      \
     && apt-get clean all
 
 # npm
 # Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
-RUN apt-get update                                       && \
-    apt-get install -y nodejs npm fonts-ipaexfont-gothic && \
-    ln -s /usr/bin/nodejs /usr/bin/node                  && \
-    npm i -g bower grunt-cli yarn                        && \
-    apt-get autoremove -y                                && \
+RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
+    apt-get update                                         && \
+    apt-get install -y nodejs npm fonts-ipaexfont-gothic   && \
+    npm i -g bower grunt-cli yarn                          && \
+    apt-get autoremove -y                                  && \
     apt-get clean all
 
+# RUN   ln -s /usr/bin/nodejs /usr/bin/node               
 # Install Apache modules
 RUN a2enmod rewrite \
             proxy proxy_http proxy_ajp \

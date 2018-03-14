@@ -140,12 +140,12 @@ RUN \
     mv composer.phar composer
 ## logrotate
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
-## npm gnutls error
-RUN apt-get update \
-  && apt-get remove -y libgnutls-deb0-28 \
-  && apt-get upgrade -y libgnutls* \
-  && apt-get autoremove -y \
-  && apt-get clean all
+## npm gnutls error <- this removed apachectl and other utilities!
+#RUN apt-get update \
+#  && apt-get remove -y libgnutls-deb0-28 \
+#  && apt-get upgrade -y libgnutls* \
+#  && apt-get autoremove -y \
+#  && apt-get clean all
 ## important
 RUN apt-get update \
   && apt-get upgrade -y    \

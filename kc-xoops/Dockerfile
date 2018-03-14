@@ -152,3 +152,4 @@ RUN apt-get update \
   && apt-get autoremove -y \
   && apt-get clean all
 
+WORKDIR /var/www

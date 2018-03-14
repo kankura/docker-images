@@ -67,17 +67,18 @@ RUN DEBIAN_FRONTEND=noninteractive    && \
 
 # php libraries
 # https://docs.docker.com/samples/library/php/#how-to-install-more-php-extensions
-RUN apt-get update && apt-get install -y \
-		libfreetype6-dev \
-		libjpeg62-turbo-dev \
-		libmcrypt-dev       \
-		libpng-dev          \
-	        imagemagick         \
-                lynx-cur            \
-                libfreetype6-dev    \
-                libbz2-dev          \
-                zlib1g-dev          \
-                libcurl4-gnutls-dev                    && \
+RUN apt-get update && apt-get install -y                  \
+		libfreetype6-dev                          \
+		libjpeg62-turbo-dev                       \
+		libmcrypt-dev                             \
+		libpng-dev                                \
+	        imagemagick                               \
+                lynx-cur                                  \
+                libfreetype6-dev                          \
+                libbz2-dev                                \
+                zlib1g-dev                                \
+                libcurl4-gnutls-dev                       \
+                libssl-dev                             && \
          yes '' | pecl install mcrypt-1.0.1            && \
          docker-php-ext-install -j$(nproc) iconv  && \
          docker-php-ext-enable mcrypt             && \
@@ -86,7 +87,7 @@ RUN apt-get update && apt-get install -y \
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
 RUN docker-php-ext-install \
-                mysql mysqli pdo pdo_mysql \
+                mysqli pdo pdo_mysql \
 		bcmath \
 		bz2 \
                 curl \
@@ -143,12 +144,12 @@ COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 
 WORKDIR /var/www
 
-## npm gnutls error
-RUN apt-get update \
-  && apt-get remove -y libgnutls-deb0-28 \
-  && apt-get upgrade -y libgnutls* \
-  && apt-get autoremove -y \
-  && apt-get clean all
+### npm gnutls error
+#RUN apt-get update \
+#  && apt-get remove -y libgnutls-deb0-28 \
+#  && apt-get upgrade -y libgnutls* \
+#  && apt-get autoremove -y \
+#  && apt-get clean all
 ## important
 RUN apt-get update \
   && apt-get upgrade -y    \

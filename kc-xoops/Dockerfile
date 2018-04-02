@@ -2,7 +2,7 @@ FROM php:5-apache
 MAINTAINER kujiy
 
 # アップデート
-RUN apt-get update -y            \ 
+RUN apt-get update -y            \
  && apt-get install apt-utils -y \
  && apt-get autoremove -y        \
  && apt-get clean all
@@ -32,7 +32,9 @@ RUN apt-get install -y          \
 
 # npm
 # Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
-RUN apt-get update                                       && \
+# https://nodejs.org/en/download/package-manager/
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    apt-get update                                       && \
     apt-get install -y nodejs npm fonts-ipaexfont-gothic && \
     ln -s /usr/bin/nodejs /usr/bin/node                  && \
     npm i -g bower grunt-cli yarn                        && \
@@ -42,7 +44,7 @@ RUN apt-get update                                       && \
 # Install Apache modules
 RUN a2enmod rewrite \
             proxy proxy_http proxy_ajp \
-            remoteip headers 
+            remoteip headers
 # Disable unnessary extensions
 RUN a2dismod dav dav_fs cgi ssl
 

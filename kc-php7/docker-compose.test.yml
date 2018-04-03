@@ -1,4 +1,4 @@
 sut:
   build: .
-  command: bash /run_tests.sh
+  command: bash /run_test.sh
 

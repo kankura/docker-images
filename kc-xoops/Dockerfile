@@ -149,3 +149,6 @@ RUN apt-get update \
   && apt-get clean all
 
 WORKDIR /var/www
+
+# docker hub autotest
+COPY run_test.sh /

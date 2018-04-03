@@ -4,7 +4,7 @@ MAINTAINER kujiy
 ENV DEBIAN_FRONTEND=noninteractive
 
 # update & upgrade
-RUN apt-get update -y            \ 
+RUN apt-get update -y            \
  && apt-get install apt-utils -y \
  && apt-get autoremove -y        \
  && apt-get clean all
@@ -48,11 +48,11 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
     npm i -g bower grunt-cli yarn                          && \
     apt-get autoremove -y                                  && \
     apt-get clean all
-              
+
 # Install Apache modules
 RUN a2enmod rewrite \
             proxy proxy_http proxy_ajp \
-            remoteip headers 
+            remoteip headers
 # Disable unnessary extensions
 RUN a2dismod dav dav_fs cgi ssl
 
@@ -152,5 +152,7 @@ RUN apt-get update \
   && apt-get autoremove -y \
   && apt-get clean all
 
-
 WORKDIR /var/www
+
+# docker hub autotest
+COPY run_test.sh /

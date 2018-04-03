@@ -13,30 +13,31 @@ RUN apt-get upgrade -y           \
 # 各種インストール
 ## cronを入れる。cron loggingのためにrsyslogも入れる。
 ## これにより /var/log/syslog にcron logが入ります。
-RUN apt-get install -y          \
-                   apt-utils    \
-                   git          \
-                   cron         \
-                   rsyslog      \
-                   iputils-ping \
-                   iproute      \
-                   wget         \
-                   telnet       \
-                   tree         \
-                   vim          \
-                   curl         \
-                   net-tools    \
-                   dnsutils     \
-                   bzip2        \
+RUN apt-get install -y                    \
+                   apt-utils              \
+                   git                    \
+                   cron                   \
+                   rsyslog                \
+                   iputils-ping           \
+                   iproute                \
+                   wget                   \
+                   telnet                 \
+                   tree                   \
+                   vim                    \
+                   curl                   \
+                   net-tools              \
+                   dnsutils               \
+                   bzip2                  \
+                   fonts-ipaexfont-gothic \
     && apt-get clean all
 
 # npm
 # Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
 # https://nodejs.org/en/download/package-manager/
+# npm will be installed by nodejs
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get update                                       && \
-    apt-get install -y nodejs npm fonts-ipaexfont-gothic && \
-    ln -s /usr/bin/nodejs /usr/bin/node                  && \
+    apt-get install -y nodejs                            && \
     npm i -g bower grunt-cli yarn                        && \
     apt-get autoremove -y                                && \
     apt-get clean all
@@ -65,16 +66,17 @@ RUN DEBIAN_FRONTEND=noninteractive    && \
 # php libraries
 # https://docs.docker.com/samples/library/php/#how-to-install-more-php-extensions
 RUN apt-get update && apt-get install -y \
-		libfreetype6-dev \
-		libjpeg62-turbo-dev \
-		libmcrypt-dev       \
-		libpng-dev          \
-	        imagemagick         \
-                lynx-cur            \
-                libfreetype6-dev    \
-                libbz2-dev          \
-                zlib1g-dev          \
-                libcurl4-gnutls-dev     \
+		libfreetype6-dev         \
+		libjpeg62-turbo-dev      \
+		libmcrypt-dev            \
+		libpng-dev               \
+	        imagemagick              \
+                lynx-cur                 \
+                libfreetype6-dev         \
+                libbz2-dev               \
+                zlib1g-dev               \
+                libcurl4-gnutls-dev      \
+                libssl-dev               \
         && docker-php-ext-install -j$(nproc) iconv mcrypt \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
 	&& docker-php-ext-install -j$(nproc) gd

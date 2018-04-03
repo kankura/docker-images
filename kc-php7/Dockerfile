@@ -35,18 +35,20 @@ RUN apt-get install -y          \
                    supervisor   \
                    software-properties-common \
                    gnupg                      \
+                   fonts-ipaexfont-gothic     \
     && apt-get clean all
 
 # npm
 # Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
+# https://nodejs.org/en/download/package-manager/
+# npm will be installed by nodejs
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
     apt-get update                                         && \
-    apt-get install -y nodejs npm fonts-ipaexfont-gothic   && \
+    apt-get install -y nodejs                              && \
     npm i -g bower grunt-cli yarn                          && \
     apt-get autoremove -y                                  && \
     apt-get clean all
-
-# RUN   ln -s /usr/bin/nodejs /usr/bin/node               
+              
 # Install Apache modules
 RUN a2enmod rewrite \
             proxy proxy_http proxy_ajp \
@@ -87,10 +89,10 @@ RUN apt-get update && apt-get install -y                  \
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
 RUN docker-php-ext-install \
-                mysqli pdo pdo_mysql \
+        mysqli pdo pdo_mysql \
 		bcmath \
 		bz2 \
-                curl \
+        curl \
 		exif \
 		ftp \
 		gettext \
@@ -142,17 +144,13 @@ RUN curl -sS https://getcomposer.org/installer | php   && \
 ## logrotate
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 
-WORKDIR /var/www
 
-### npm gnutls error
-#RUN apt-get update \
-#  && apt-get remove -y libgnutls-deb0-28 \
-#  && apt-get upgrade -y libgnutls* \
-#  && apt-get autoremove -y \
-#  && apt-get clean all
+
 ## important
 RUN apt-get update \
   && apt-get upgrade -y    \
   && apt-get autoremove -y \
   && apt-get clean all
 
+
+WORKDIR /var/www

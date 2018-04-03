@@ -1,7 +1,9 @@
 FROM php:5-apache
 MAINTAINER kujiy
 
-# アップデート
+ENV DEBIAN_FRONTEND=noninteractive
+
+# update & upgrade
 RUN apt-get update -y            \
  && apt-get install apt-utils -y \
  && apt-get autoremove -y        \
@@ -28,6 +30,9 @@ RUN apt-get install -y                    \
                    net-tools              \
                    dnsutils               \
                    bzip2                  \
+                   lsyncd                 \
+                   cpio                   \
+                   supervisor             \
                    fonts-ipaexfont-gothic \
     && apt-get clean all
 
@@ -50,10 +55,7 @@ RUN a2enmod rewrite \
 RUN a2dismod dav dav_fs cgi ssl
 
 # Supervisor
-RUN apt-get install -y supervisor \
- && mkdir -p /var/log/supervisor  \
- && apt-get autoremove -y         \
- && apt-get clean all
+RUN mkdir -p /var/log/supervisor
 
 # mysql and other extensions
 # IMPORTANT: MUST use "dockerphp-ext-install"
@@ -83,10 +85,11 @@ RUN apt-get update && apt-get install -y \
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
 RUN docker-php-ext-install \
-                mysql mysqli pdo pdo_mysql \
+        mysql \
+        mysqli pdo pdo_mysql \
 		bcmath \
 		bz2 \
-                curl \
+        curl \
 		exif \
 		ftp \
 		gettext \
@@ -131,25 +134,14 @@ RUN    apt-get update             \
    &&  apt-get clean all
 #COPY ./conf/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
-# Lsyncd
-RUN apt-get install -y lsyncd
-
-# source backupで使うcpio
-RUN apt-get install -y cpio
-
 # composer
-RUN \
-    cd /usr/local/bin && \
-    curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar composer
+RUN curl -sS https://getcomposer.org/installer | php   && \
+    mv composer.phar /usr/local/bin/composer           && \
+    composer self-update
+
 ## logrotate
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
-## npm gnutls error <- this removed apachectl and other utilities!
-#RUN apt-get update \
-#  && apt-get remove -y libgnutls-deb0-28 \
-#  && apt-get upgrade -y libgnutls* \
-#  && apt-get autoremove -y \
-#  && apt-get clean all
+
 ## important
 RUN apt-get update \
   && apt-get upgrade -y    \

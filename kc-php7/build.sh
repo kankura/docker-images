@@ -1,5 +1,5 @@
 ORG=kchub
-PJ=${PWD##*/}     # dir名から取得
+PJ=${PWD##*/}    # dir名から取得
 
 echo $ORG, $PJ
 

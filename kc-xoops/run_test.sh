@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Stop when any command fails
+set -e
+
 function e() {
     echo $@
     eval "$@"
@@ -7,10 +11,18 @@ function e() {
 
 # for loop with spaces
 IFS=' '
+echo
+echo
+echo
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo run_test begins
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo
+echo
 
 echo versions ==================================================================
 e php -v
-e apachectl -v 
+e apachectl -v
 e npm -v
 e git version
 e bower -v
@@ -18,14 +30,14 @@ e yarn -v
 e python --version
 e openssl version
 e git version
- 
+
 echo
 echo settings ==================================================================
 e php -i
 e apachectl -M
 e apachectl configtest
 e apachectl -S
- 
+
 echo
 
 # apache modules test
@@ -59,3 +71,11 @@ echo
 echo curl  ========================================================
 e "php -i | grep -E '^curl'"
 
+
+echo
+echo
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo run_test ends
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo
+echo

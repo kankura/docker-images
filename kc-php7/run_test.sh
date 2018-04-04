@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Stop when any command fails
+set -e
+
 function e() {
     echo $@
     eval "$@"
@@ -7,6 +11,14 @@ function e() {
 
 # for loop with spaces
 IFS=' '
+echo
+echo
+echo
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo run_test begins
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo
+echo
 
 echo versions ==================================================================
 e php -v
@@ -55,3 +67,11 @@ echo
 echo curl  ========================================================
 e "php -i | grep -E '^curl'"
 
+
+echo
+echo
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo run_test ends
+echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+echo
+echo

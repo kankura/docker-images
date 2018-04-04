@@ -21,8 +21,8 @@ RUN    apt-get update \
 ADD rsyslog/haproxy.conf /etc/rsyslog.d
 
 # Aliases
-COPY ll /usr/bin/
+RUN echo -e "alias ll='ls -lha'" >> /root/.bashrc
 
 COPY entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["bash," "/entrypoint.sh"]
 CMD ["haproxy -f /usr/local/etc/haproxy/haproxy.cfg -Ds -dr -V -d"]

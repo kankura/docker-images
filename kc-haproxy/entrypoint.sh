@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo Checking command...
+echo command: $@
+
 # Make sure service is running
 service rsyslog start
 

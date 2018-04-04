@@ -71,6 +71,16 @@ e "php -i | grep -E '^curl'"
 
 
 echo
+echo php pear ==============================================================
+EXT=" PEAR XML_Util Image_Color Image_Graph Image_Color2 Mail_Mime Log Auth"
+for i in $EXT
+do
+ echo "pear $i ========================================================"
+ pear list | grep $i
+ echo
+done
+
+echo
 echo
 echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 echo run_test ends

@@ -27,6 +27,8 @@ e npm -v
 e git version
 e bower -v
 e yarn -v
+e grunt -V
+e gulp -v
 e python --version
 e openssl version
 e git version
@@ -42,11 +44,11 @@ echo
 
 # apache modules test
 echo apache modules test ===========================================================
-MOD="rewrite alias log headers proxy php5 remoteip setenvif status"
+MOD="rewrite alias log headers proxy php remoteip setenvif status"
 for i in $MOD
 do
     echo apachectl $i ========================================================
-    e    "apachectl -M | grep $i"
+    e    "apachectl -M 2>&1 | grep -v 'fully qualified domain name' | grep $i"
     echo
 done
 
@@ -72,10 +74,28 @@ echo curl  ========================================================
 e "php -i | grep -E '^curl'"
 
 
+#########################
+echo get web by curl test....
+
+# set a content
+echo set index.html...
+date > /var/www/html/index.html
+
+BR=$'\n'
+CMDs="curl -L http://127.0.0.1/       $BR\
+"
+IFS=$BR # 改行でloopさせる
+for CMD in $CMDs
+do
+    eval "$CMD"
+done;
+
 echo
 echo
 echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 echo run_test ends
 echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 echo
+echo $0 on `hostname` SUCCESS!
 echo
+

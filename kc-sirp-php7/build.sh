@@ -20,6 +20,6 @@ fi
 docker build -t $LATEST .
 
 echo Pushing...
-docker push $LATEST
 docker push $VERSIONED
+docker push $LATEST
 

@@ -24,5 +24,14 @@ ADD rsyslog/haproxy.conf /etc/rsyslog.d
 RUN echo -e "alias ll='ls -lha'" >> /root/.bashrc
 
 COPY entrypoint.sh /
-ENTRYPOINT ["bash," "/entrypoint.sh"]
-CMD ["haproxy -f /usr/local/etc/haproxy/haproxy.cfg -Ds -dr -V -d"]
+# chmod +x needs when build on docker hub
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+### CMD
+# https://cbonte.github.io/haproxy-dconv/1.8/management.html
+#  -dr : ignore server address resolution failures.
+#  -d : enable debug mode.
+#  -V : enable verbose mode 
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg", "-dr", "-V", "-d"]
+

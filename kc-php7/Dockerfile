@@ -45,7 +45,7 @@ RUN apt-get install -y          \
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
     apt-get update                                         && \
     apt-get install -y nodejs                              && \
-    npm i -g bower grunt-cli yarn                          && \
+    npm i -g bower grunt-cli yarn gulp                     && \
     apt-get autoremove -y                                  && \
     apt-get clean all
 

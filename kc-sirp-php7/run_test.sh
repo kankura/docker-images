@@ -11,6 +11,7 @@ function e() {
 
 # for loop with spaces
 IFS=' '
+
 echo
 echo
 echo
@@ -20,6 +21,7 @@ echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 echo
 echo
 
+
 echo versions ==================================================================
 e php -v
 e apachectl -v
@@ -27,6 +29,8 @@ e npm -v
 e git version
 e bower -v
 e yarn -v
+e grunt -V
+e gulp -v
 e python --version
 e openssl version
 e git version
@@ -46,7 +50,7 @@ MOD="rewrite alias log headers proxy php remoteip setenvif status"
 for i in $MOD
 do
     echo apachectl $i ========================================================
-    e    "apachectl -M 2>&1 | grep -v 'fully qualified domain name' | grep $i"
+    e    "apachectl -M | grep $i"
     echo
 done
 
@@ -67,11 +71,21 @@ echo
 echo curl  ========================================================
 e "php -i | grep -i 'curl support' | grep -i enabled"
 
+echo
+echo php pear ==============================================================
+EXT=" PEAR XML_Util Image_Color Image_Graph Image_Color2 Mail_Mime Log Auth"
+for i in $EXT
+do
+ echo "pear $i ========================================================"
+ pear list | grep $i
+ echo
+done
+
+
 #########################
 echo get web by curl test....
 
 # set a content
-echo set index.html...
 date > /var/www/html/index.html
 
 BR=$'\n'
@@ -89,4 +103,5 @@ echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 echo run_test ends
 echo @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 echo
+echo $0 on `hostname` SUCCESS!
 echo

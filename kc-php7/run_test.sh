@@ -72,15 +72,19 @@ echo get web by curl test....
 
 # set a content
 echo set index.html...
-date > /var/www/html/index.html
+e "date > /var/www/html/index.html"
 
+echo start apache...
+e "apachectl start"
+
+echo testing curl...
 BR=$'\n'
 CMDs="curl -L http://127.0.0.1/       $BR\
 "
 IFS=$BR # 改行でloopさせる
 for CMD in $CMDs
 do
-    eval "$CMD"
+    e $CMD
 done;
 
 echo

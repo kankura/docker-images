@@ -32,6 +32,8 @@ ENTRYPOINT ["/entrypoint.sh"]
 # https://cbonte.github.io/haproxy-dconv/1.8/management.html
 #  -dr : ignore server address resolution failures.
 #  -d : enable debug mode.
-#  -V : enable verbose mode 
+#  -V : enable verbose mode
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg", "-dr", "-V", "-d"]
 
+# docker cloud autotest
+COPY run_test.sh /

@@ -25,7 +25,9 @@ echo versions ==================================================================
 e haproxy -v
 e " nslookup example.com | grep -v 127.0.0. | grep Address: "
 e "curl --version"
-e  wget version
+e "wget --version"
+e "ping -V"
+e "dpkg -l | grep telnet"
 e " vim --version | grep IMproved"
 
 echo services ==================================================================

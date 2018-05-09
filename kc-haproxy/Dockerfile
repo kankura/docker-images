@@ -14,6 +14,7 @@ RUN    apt-get update \
                             net-tools     \
                             dnsutils      \
                             iputils-ping  \
+                            procps        \
                             curl          \
                             telnet        \
                             wget          \

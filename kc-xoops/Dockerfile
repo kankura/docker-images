@@ -142,11 +142,17 @@ RUN curl -sS https://getcomposer.org/installer | php   && \
 ## logrotate
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 
-## important
+## python3環境
 RUN apt-get update \
-  && apt-get upgrade -y    \
-  && apt-get autoremove -y \
-  && apt-get clean all
+  && apt-get install -y python3 python3-dev libmysqlclient-dev python-pip     \
+  && apt-get autoremove -y                                                    \
+  && apt-get clean all                                                        \
+  && pip install --upgrade  pip setuptools                                    \
+  && pip install pipenv                                                       \
+  && export LC_ALL=C.UTF-8                                                    \
+  && export LANG=C.UTF-8                                                      \
+  && pipenv install mysql-connector-python --three
+ENV PYTHONIOENCODING=utf-8
 
 WORKDIR /var/www
 

@@ -146,7 +146,7 @@ COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 
 ## python3環境
 RUN apt-get update \
-  && apt-get install -y python3 python3-dev libmysqlclient-dev python-pip     \
+  && apt-get install -y python3 python3-dev default-libmysqlclient-dev python-pip     \
   && apt-get autoremove -y                                                    \
   && apt-get clean all                                                        \
   && pip install --upgrade  pip setuptools                                    \

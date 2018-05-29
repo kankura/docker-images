@@ -15,6 +15,7 @@ RUN apt-get upgrade -y           \
 # 各種インストール
 ## cronを入れる。cron loggingのためにrsyslogも入れる。
 ## これにより /var/log/syslog にcron logが入ります。
+## gnupgはnodejsのinstallに必要
 RUN apt-get install -y                    \
                    apt-utils              \
                    git                    \
@@ -34,6 +35,7 @@ RUN apt-get install -y                    \
                    cpio                   \
                    supervisor             \
                    fonts-ipaexfont-gothic \
+                   gnupg                  \
     && apt-get clean all
 
 # npm

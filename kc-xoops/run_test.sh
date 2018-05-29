@@ -32,6 +32,11 @@ e gulp -v
 e python --version
 e openssl version
 e git version
+e python3 -V
+e pip -V
+e export LC_ALL=C.UTF-8
+e export LANG=C.UTF-8
+e pipenv --version
 
 echo
 echo settings ==================================================================

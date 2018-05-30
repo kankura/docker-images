@@ -86,23 +86,24 @@ RUN apt-get update && apt-get install -y \
 	&& docker-php-ext-install -j$(nproc) gd
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
-RUN docker-php-ext-install \
-        mysql \
-        mysqli pdo pdo_mysql \
-		bcmath \
-		bz2 \
-        curl \
-		exif \
-		ftp \
-		gettext \
-		mbstring \
-		opcache \
-		shmop \
-		sockets \
-		sysvmsg \
-		sysvsem \
-		sysvshm \
-		zip
+RUN docker-php-ext-install   \
+        pdo pdo_mysql        \
+		    bcmath               \
+		    bz2                  \
+        curl                 \
+		    exif                 \
+		    ftp                  \
+		    gettext              \
+		    mbstring             \
+		    opcache              \
+		    shmop                \
+		    sockets              \
+		    sysvmsg              \
+		    sysvsem              \
+		    sysvshm              \
+		    zip                  \
+        mysqli               \
+    && docker-php-ext-enable mysqli
 
 # ruby
 # https://github.com/docker-library/ruby/blob/1b08f346713a1293c2a9238e470e086126e2e28f/2.3/Dockerfile

@@ -89,10 +89,10 @@ RUN apt-get update && apt-get install -y                  \
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
 RUN docker-php-ext-install \
-        mysqli pdo pdo_mysql \
+    mysqli pdo pdo_mysql \
 		bcmath \
 		bz2 \
-        curl \
+    curl \
 		exif \
 		ftp \
 		gettext \
@@ -102,8 +102,8 @@ RUN docker-php-ext-install \
 		sockets \
 		sysvmsg \
 		sysvsem \
-		sysvshm \
-		zip
+		sysvshm
+RUN docker-php-ext-install zip
 
 # ruby
 # https://github.com/docker-library/ruby/blob/1b08f346713a1293c2a9238e470e086126e2e28f/2.3/Dockerfile

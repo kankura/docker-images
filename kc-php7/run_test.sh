@@ -55,13 +55,18 @@ echo
 # php extention checks
 ## enabled check
 echo php extentions test ===========================================================
-EXT=" GD JPEG PNG GIF mysqli"
+EXT=" GD JPEG PNG GIF gzip"
 for i in $EXT
 do
  echo php $i ========================================================
  e "php -i | grep -i $i | grep -i enabled"
  echo
 done
+e "php -i | grep -i docker-php-ext-zip.ini"
+e "php -i | grep -i Libzip"
+e "php -i | grep -i 'API Extensions => mysqli'"
+e "php -i | grep -i 'mysqli.allow_local_infile' | grep -i On"
+
 
 echo
 echo curl  ========================================================

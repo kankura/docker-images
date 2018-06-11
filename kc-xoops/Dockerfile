@@ -16,7 +16,8 @@ RUN apt-get upgrade -y           \
 ## cronを入れる。cron loggingのためにrsyslogも入れる。
 ## これにより /var/log/syslog にcron logが入ります。
 ## gnupgはnodejsのinstallに必要
-RUN apt-get install -y                    \
+RUN apt-get update                        \
+    && apt-get install -y                 \
                    apt-utils              \
                    git                    \
                    cron                   \
@@ -146,12 +147,16 @@ RUN curl -sS https://getcomposer.org/installer | php   && \
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 
 ## python3環境
-RUN apt-get update \
-  && apt-get install -y python3 python3-dev default-libmysqlclient-dev python-pip     \
+RUN set -x          \
+  && apt-get update \
+  && apt-get install -y python3 python3-dev libmysqlclient-dev python-pip     \
   && apt-get autoremove -y                                                    \
   && apt-get clean all                                                        \
+  && : "\n\n\n +++++++++++++++\n pipのインストールを始めます ++++++++++++++\n\n\n"      \
   && pip install --upgrade  pip setuptools                                    \
+  && : "\n\n\n +++++++++++++++\n pipenvのインストールを始めます ++++++++++++++\n\n\n"      \
   && pip install pipenv                                                       \
+  && : "\n\n\n +++++++++++++++\n pipenvでmysql moduleのインストールを始めます ++++++++++++++\n\n\n"      \
   && export LC_ALL=C.UTF-8                                                    \
   && export LANG=C.UTF-8                                                      \
   && pipenv install mysql-connector-python --three

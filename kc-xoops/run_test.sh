@@ -72,7 +72,17 @@ done
 
 echo
 echo mysql ========================================================
+# mysqlnd
 e "php -i | grep -v mysqli | grep mysql | grep enabled"
+# mysql
+e "php -i | grep docker-php-ext-mysql.ini "
+e "php -i | grep mysql.default_host "
+# mysqli
+e "php -i | grep docker-php-ext-mysqli.ini "
+e "php -i | grep mysqli.default_host "
+# pdo_mysql
+e "php -i | grep docker-php-ext-pdo_mysql.ini"
+e "php -i | grep pdo_mysql.default_socket"
 
 echo
 echo curl  ========================================================

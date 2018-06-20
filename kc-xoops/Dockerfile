@@ -88,10 +88,10 @@ RUN apt-get update && apt-get install -y \
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
 RUN docker-php-ext-install   \
-        pdo pdo_mysql        \
+                    pdo pdo_mysql        \
 		    bcmath               \
 		    bz2                  \
-        curl                 \
+                    curl                 \
 		    exif                 \
 		    ftp                  \
 		    gettext              \
@@ -103,8 +103,10 @@ RUN docker-php-ext-install   \
 		    sysvsem              \
 		    sysvshm              \
 		    zip                  \
-        mysqli               \
-    && docker-php-ext-enable mysqli
+                    mysqli               \
+    && docker-php-ext-enable mysqli     \
+    && docker-php-ext-install mysql      \
+    && docker-php-ext-enable mysql
 
 # ruby
 # https://github.com/docker-library/ruby/blob/1b08f346713a1293c2a9238e470e086126e2e28f/2.3/Dockerfile
@@ -150,14 +152,13 @@ COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 RUN set -x          \
   && apt-get update \
   && : "libmysqlclient-dev と \n" \
-  && apt-get install -y libmysqlclient-dev  \
+  && apt-get install -y default-libmysqlclient-dev  \
   && : "python3は分けてapt-getしないとコケる \n" \
-  && apt-get install -y python3 python3-dev python-pip     \
-  && apt-get autoremove -y                                                    \
-  && apt-get clean all                                                        \
-  && : "\n\n\n +++++++++++++++\n pipのインストールを始めます ++++++++++++++\n\n\n"      \
-  && pip install --upgrade  pip setuptools                                    \
-  && : "\n\n\n +++++++++++++++\n pipenvのインストールを始めます ++++++++++++++\n\n\n"      \
+  && apt-get install -y python3 python3-dev \
+  && apt-get clean all                                                        
+#RUN echo "\n\n\n +++++++++++++++\n pipのインストールを始めます ++++++++++++++\n\n\n"      \
+  RUN apt-get install -y  python-pip                                          
+  RUN pip install setuptools                                   \
   && pip install pipenv                                                       \
   && : "\n\n\n +++++++++++++++\n pipenvでmysql moduleのインストールを始めます ++++++++++++++\n\n\n"      \
   && export LC_ALL=C.UTF-8                                                    \

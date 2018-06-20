@@ -19,6 +19,9 @@ if [[ $? != 0 ]]; then
 fi
 docker build -t $LATEST .
 
+# test
+docker-compose -f docker-compose.test.yml up
+
 echo Pushing...
 docker push $VERSIONED
 docker push $LATEST

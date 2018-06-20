@@ -149,7 +149,10 @@ COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 ## python3環境
 RUN set -x          \
   && apt-get update \
-  && apt-get install -y python3 python3-dev libmysqlclient-dev python-pip     \
+  && : "libmysqlclient-dev と \n" \
+  && apt-get install -y libmysqlclient-dev  \
+  && : "python3は分けてapt-getしないとコケる \n" \
+  && apt-get install -y python3 python3-dev python-pip     \
   && apt-get autoremove -y                                                    \
   && apt-get clean all                                                        \
   && : "\n\n\n +++++++++++++++\n pipのインストールを始めます ++++++++++++++\n\n\n"      \

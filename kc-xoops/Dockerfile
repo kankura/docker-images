@@ -37,6 +37,7 @@ RUN apt-get update                        \
                    supervisor             \
                    fonts-ipaexfont-gothic \
                    gnupg                  \
+                   traceroute             \
     && apt-get clean all
 
 # npm

@@ -31,7 +31,7 @@ e grunt -V
 e gulp -v
 e python --version
 e openssl version
-e git version
+e traceroute -V
 e python3 -V
 e pip -V
 e export LC_ALL=C.UTF-8

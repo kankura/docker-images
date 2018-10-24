@@ -141,10 +141,13 @@ RUN curl -sS https://getcomposer.org/installer | php   && \
     mv composer.phar /usr/local/bin/composer           && \
     composer self-update
 
+# phantomjs
+RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    tar -jxf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    cp -p phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
+
 ## logrotate
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
-
-
 
 ## important
 RUN apt-get update \

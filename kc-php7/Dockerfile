@@ -1,5 +1,5 @@
 FROM php:7-apache
-MAINTAINER kujiy
+MAINTAINER kankura
 
 ENV DEBIAN_FRONTEND=noninteractive
 

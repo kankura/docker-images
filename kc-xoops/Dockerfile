@@ -167,6 +167,11 @@ RUN set -x          \
   && pipenv install mysql-connector-python --three
 ENV PYTHONIOENCODING=utf-8
 
+# phantomjs
+RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    tar -jxf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    cp -p phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
+
 WORKDIR /var/www
 
 # docker hub autotest

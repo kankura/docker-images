@@ -165,3 +165,5 @@ WORKDIR /var/www
 COPY run_test.sh /
 
 RUN yum install -y openssl
+
+RUN adduser www-data

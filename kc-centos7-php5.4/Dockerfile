@@ -68,6 +68,7 @@ RUN yum install -y bzip2-devel
 RUN yum install -y zlib-devel
 RUN yum install -y libcurl-devel
 RUN yum install -y openssl-devel
+RUN yum install -y openssh-clients
 
 RUN yum install -y php-iconv
 RUN yum install -y php-gd
@@ -162,3 +163,5 @@ WORKDIR /var/www
 
 # docker hub autotest
 COPY run_test.sh /
+
+RUN yum install -y openssl

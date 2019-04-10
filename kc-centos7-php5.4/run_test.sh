@@ -34,8 +34,8 @@ e openssl version
 e traceroute -V
 e python3 -V
 e pip -V
-e export LC_ALL=C.UTF-8
-e export LANG=C.UTF-8
+e export LC_ALL=en_US.UTF-8
+e export LANG=en_US.UTF-8
 e pipenv --version
 
 echo

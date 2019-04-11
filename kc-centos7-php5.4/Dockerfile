@@ -27,7 +27,6 @@ RUN yum install -y                        \
                    bzip2                  \
                    lsyncd                 \
                    cpio                   \
-                   supervisor             \
                    fonts-ipaexfont-gothic \
                    gnupg                  \
                    traceroute
@@ -79,8 +78,11 @@ RUN sed -i 's/enabled=1/enabled=0/g' /etc/yum.repos.d/epel.repo
 RUN yum --enablerepo=epel -y update epel-release
 
 RUN yum install -y --enablerepo=epel php-mcrypt
+RUN yum install -y --enablerepo=epel supervisor
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
+RUN yum install -y php
+RUN yum install -y php-mysqli
 RUN yum install -y php-pdo
 RUN yum install -y php-pdo_mysql
 RUN yum install -y php-bcmath
@@ -96,8 +98,8 @@ RUN yum install -y php-sysvmsg
 RUN yum install -y php-sysvsem
 RUN yum install -y php-sysvshm
 RUN yum install -y php-zip
-RUN yum install -y php-mysqli
 RUN yum install -y --enablerepo=epel php-opcache
+RUN yum install -y openssl
 
 # ruby
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -164,8 +166,4 @@ WORKDIR /var/www
 # docker hub autotest
 COPY run_test.sh /
 
-RUN yum install -y openssl
-
 RUN adduser www-data
-
-RUN yum install -y php

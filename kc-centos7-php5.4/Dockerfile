@@ -82,7 +82,7 @@ RUN yum install -y --enablerepo=epel supervisor
 
 # https://hub.docker.com/r/nazarpc/php/~/dockerfile/
 RUN yum install -y php
-RUN yum install -y php-mysqli
+RUN yum install -y php-mysqlnd
 RUN yum install -y php-pdo
 RUN yum install -y php-pdo_mysql
 RUN yum install -y php-bcmath

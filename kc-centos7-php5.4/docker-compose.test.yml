@@ -10,3 +10,4 @@ services:
                 https_proxy: ${http_proxy}
                 HTTPS_PROXY: ${http_proxy}
         command: bash /run_test.sh
+        privileged: true

@@ -139,6 +139,10 @@ ENV LESSCHARSET=utf-8
 RUN yum install -y --enablerepo=epel ssmtp
 #COPY ./conf/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
+# php.ini
+COPY ./kc_php.ini /etc/php.d/
+
+
 # composer
 RUN curl -sS https://getcomposer.org/installer | php   && \
     mv composer.phar /usr/local/bin/composer           && \

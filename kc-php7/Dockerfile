@@ -43,7 +43,7 @@ RUN	apt-get update -y && 	\
 # Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
 # https://nodejs.org/en/download/package-manager/
 # npm will be installed by nodejs
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update                                         && \
     apt-get install -y nodejs                              && \
     npm i -g bower grunt-cli yarn gulp                     && \

@@ -22,7 +22,7 @@ RUN	apt-get update -y && 	\
                    cron         \
                    rsyslog      \
                    iputils-ping \
-                   iproute      \
+                   iproute2     \
                    wget         \
                    telnet       \
                    tree         \

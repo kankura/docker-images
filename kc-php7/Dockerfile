@@ -76,7 +76,8 @@ RUN apt-get update && apt-get install -y                  \
 		libmcrypt-dev                             \
 		libpng-dev                                \
 	        imagemagick                               \
-                lynx-cur                                  \
+                lynx-common                                  \
+                lynx                                  \
                 libfreetype6-dev                          \
                 libbz2-dev                                \
                 zlib1g-dev                                \

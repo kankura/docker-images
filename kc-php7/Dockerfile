@@ -65,7 +65,7 @@ RUN mkdir -p /var/log/supervisor
 # https://hub.docker.com/_/php/
 RUN DEBIAN_FRONTEND=noninteractive    && \
     apt-get update                    && \
-    apt-get install -y mysql-client   && \
+    apt-get install -y default-mysql-client   && \
     apt-get clean all
 
 # php libraries

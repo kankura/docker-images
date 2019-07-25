@@ -15,7 +15,8 @@ RUN apt-get upgrade -y           \
 # 各種インストール
 ## cronを入れる。cron loggingのためにrsyslogも入れる。
 ## これにより /var/log/syslog にcron logが入ります。
-RUN apt-get install -y          \
+RUN	apt-get update -y && 	\
+	apt-get install -y      \
                    apt-utils    \
                    git          \
                    cron         \

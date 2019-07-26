@@ -134,7 +134,7 @@ ENV LESSCHARSET=utf-8
 
 # Enable sendmail
 RUN    apt-get update             \
-   &&  apt-get install -y sendmail sendmail-cf m4
+   &&  apt-get install -y sendmail sendmail-cf m4 \
    &&  apt-get clean all
 #COPY ./conf/ssmtp.conf /etc/ssmtp/ssmtp.conf
 

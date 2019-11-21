@@ -22,7 +22,7 @@ RUN	apt-get update -y && 	\
                    cron         \
                    rsyslog      \
                    iputils-ping \
-                   iproute      \
+                   iproute2     \
                    wget         \
                    telnet       \
                    tree         \
@@ -43,7 +43,7 @@ RUN	apt-get update -y && 	\
 # Create alias "node" of "nodejs" because currently nodejs is installed, but legacy modules access to "node".
 # https://nodejs.org/en/download/package-manager/
 # npm will be installed by nodejs
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update                                         && \
     apt-get install -y nodejs                              && \
     npm i -g bower grunt-cli yarn gulp                     && \
@@ -65,7 +65,7 @@ RUN mkdir -p /var/log/supervisor
 # https://hub.docker.com/_/php/
 RUN DEBIAN_FRONTEND=noninteractive    && \
     apt-get update                    && \
-    apt-get install -y mysql-client   && \
+    apt-get install -y default-mysql-client   && \
     apt-get clean all
 
 # php libraries
@@ -76,7 +76,8 @@ RUN apt-get update && apt-get install -y                  \
 		libmcrypt-dev                             \
 		libpng-dev                                \
 	        imagemagick                               \
-                lynx-cur                                  \
+                lynx-common                                  \
+                lynx                                  \
                 libfreetype6-dev                          \
                 libbz2-dev                                \
                 zlib1g-dev                                \
@@ -131,9 +132,9 @@ alias ll=\"ls -lha --full-time --color=auto\"     \n\
 
 ENV LESSCHARSET=utf-8
 
-# Enable sendmail with ssmtp
+# Enable sendmail
 RUN    apt-get update             \
-   &&  apt-get install -y ssmtp \
+   &&  apt-get install -y sendmail sendmail-cf m4 \
    &&  apt-get clean all
 #COPY ./conf/ssmtp.conf /etc/ssmtp/ssmtp.conf
 

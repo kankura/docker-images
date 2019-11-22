@@ -1,4 +1,4 @@
-FROM kchub/kc-php7
+FROM kchub/kc-php7:buster
 MAINTAINER kuji
 
 #RUN pear config-set http_proxy $http_proxy

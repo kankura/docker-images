@@ -148,6 +148,22 @@ RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x
     tar -jxf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
     cp -p phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin
 
+# puphpeteer
+RUN apt-get install -y		\
+	libx11-xcb1		\
+	libxcomposite1		\
+	libxcursor1		\
+	libxdamage1		\
+	libxi6			\
+	libxtst6		\
+	libnss3			\
+	libxss1			\
+	libxrandr2		\
+	libasound2		\
+	libatk1.0-0		\
+	libatk-bridge2.0-0	\
+	libgtk-3-0
+
 ## logrotate
 COPY logrotate.d/apache2 /etc/logrotate.d/apache2
 

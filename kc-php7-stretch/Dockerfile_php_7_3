@@ -79,7 +79,7 @@ RUN apt-get update && apt-get install -y                  \
                 lynx-cur                                  \
                 libfreetype6-dev                          \
                 libbz2-dev                                \
-                zlib1g-dev                                \
+                libzip-dev                                \
                 libcurl4-gnutls-dev                       \
                 libssl-dev                             && \
          yes '' | pecl install mcrypt-1.0.2            && \
